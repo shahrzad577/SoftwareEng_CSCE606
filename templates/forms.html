@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+        <style>
+        input[type=submit]{
+            background-color:#000000;
+            color:white;
+            cursor:pointer;
+            padding: 16px 32px;
+
+        }
+
+    </style>
+</head>
+<body>
+<h1>{{formName}}</h1>
+<ul>
+    {% for ques in question%}
+        <li> {{ques.question_content}} </li>
+    {% endfor %}
+</ul>
+</form>
+
+</body>
+</html>

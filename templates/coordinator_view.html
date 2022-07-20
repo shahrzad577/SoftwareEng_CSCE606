@@ -1,0 +1,89 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href='https://fonts.googleapis.com/css?family=Open Sans' rel='stylesheet'>
+
+    <link rel="stylesheet" type="text/css" href="{% static 'css/dashboard.css' %}">
+    <title>Title</title>
+
+</head>
+
+<body>
+
+    <!-- Side Navigation Bar  -->
+    <div class="sidenav"> Navb
+        <div>
+            <center><img src="{% static 'images/TAM-Stack-white.svg' %}"></center>
+        </div>
+
+        <div class="footer">
+            {{user.username}}
+        </div>
+        <br>
+
+        <a href={% url 'home' %}>HOME</a>
+        <a href="#">PLACEHOLDER</a>
+        <a href="#">PLACEHOLDER</a>
+        <a href="#">PLACEHOLDER</a>
+        <a href="{% url 'logout' %}">LOGOUT</a>
+
+    </div>
+    <div class="main" style="margin-top: 10px;">
+        <h1>Home Page</h1>
+
+        <a href="{% url 'create_program' %}" class="btn btn-dark" role="button">Add Program</a>
+        <a href="{% url 'create_form' %}" class="btn btn-dark" role="button">Create Form</a>
+        <br><br>
+
+        <ul>
+            {% for d in data%}
+            <li>
+                {%for x in d%}
+                {{x}} &emsp;
+                {%endfor%}
+            </li>
+            {% endfor %}
+        </ul>
+
+        <!-- Creates table for each program  -->
+        
+        <div>
+            <table class="table table-bordered">
+                <thead>
+                  <tr>
+                    <th scope="col">Program ID</th>
+                    <th scope="col">Name</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    
+                    {% for program in programs %}
+                  <tr>
+                    <th scope="row">{{program.id}}</th>
+                    <td><a href="/program/{{program.id}}">{{program.program_name}}</a></td>
+                    
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+        </div>
+
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+
+
+</body>
+
+</html>

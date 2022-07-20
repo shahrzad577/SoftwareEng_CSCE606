@@ -1,0 +1,321 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+        <link href='https://fonts.googleapis.com/css?family=Open Sans' rel='stylesheet'>
+
+    <link rel="stylesheet" type="text/css" href="{% static 'css/dashboard.css' %}">
+    <title>Title</title>
+    
+</head>
+<body>
+    <div class="sidenav">
+        <div>
+            <center><img src="{% static 'images/TAM-Stack-white.svg' %}"></center>
+        </div>
+        <div class="footer">
+            {{user.username}}
+        </div>
+        <br>
+
+        <a href={% url 'home' %}>HOME</a>
+        <a href="#">PLACEHOLDER</a>
+        <a href="#">PLACEHOLDER</a>
+        <a href="#">PLACEHOLDER</a>
+        <a href="{% url 'logout' %}">LOGOUT</a>
+
+    </div>
+    <div class="main" style="margin-top: 10px;">
+<form action="" method="POST">
+{% csrf_token %}
+{%  for question,id, order,options,type,answer in articles %}
+<div class="" style="padding: 10px; margin-top: 20px; border: 2px solid #3C0000;background-color:#D6D3C4">
+        {{order}}. {{question}}<br><br>
+        {% if type == 'mcq' %}
+            {% for option in options %}
+                {% if user_access == 3 %}
+                    {% if option == answer %}
+                    <input type="radio" name="{{id}}_answer" id="{{id}}_answer" value="{{option}}" checked="checked" disabled>
+                    <label for="{{  option  }}">{{option}}</label>
+                    {% else %}
+                    <input type="radio" name="{{id}}_answer" id="{{id}}_answer" value="{{option}}" disabled>
+                    <label for="{{  option  }}">{{option}}</label>
+                    {% endif %}
+                {% elif user_access == 2 and completed_by_supervisor == 1 %}
+                     {% if option == answer %}
+                    <input type="radio" name="{{id}}_answer" id="{{id}}_answer" value="{{option}}" checked="checked" disabled>
+                    <label for="{{  option  }}">{{option}}</label>
+                    {% else %}
+                    <input type="radio" name="{{id}}_answer" id="{{id}}_answer" value="{{option}}" disabled>
+                    <label for="{{  option  }}">{{option}}</label>
+                    {% endif %}
+                {% elif user_access == 2 and completed_by_supervisor == 0 %}
+                <input type="radio" name="{{id}}_answer" id="{{id}}_answer" value="{{option}}">
+                <label for="{{  option  }}">{{option}}</label>
+                {% elif user_access == 1 %}
+                <input type="radio" name="{{id}}_answer" id="{{id}}_answer" value="{{option}}" disabled>
+                <label for="{{  option  }}">{{option}}</label>
+                {% endif %}
+                <br>
+            {% endfor %}
+        {% else %}
+            {% if user_access == 3 %}
+                <div class="form-group">
+                    <textarea class="form-control" id="" rows="3" disabled>{{answer}}</textarea>
+                </div>  
+            {% elif user_access == 2 and completed_by_supervisor == 0 %}
+                <div class="form-group">
+                    <textarea class="form-control" id="" rows="3" name = "{{id}}_answer"></textarea>
+                  </div>
+            {% elif user_access == 2 and completed_by_supervisor == 1 %}
+                 <div class="form-group">
+                    <textarea class="form-control" id="" rows="3" disabled>{{answer}}</textarea>
+                </div>  
+
+            {% elif user_access == 1 %}
+                <div class="form-group">
+                    <textarea class="form-control" id="" rows="3" name="{{id}}_answer" disabled></textarea>
+                </div>  
+            {% endif %}
+        {% endif %}
+
+     {% if user_access == 1  and completed_by_coordinator == 0 %}
+     <br>
+     <button class = "btn btn-outline-dark btn-sm" name="DeleteButton" value={{id}}>Delete</button>
+     <button class = "btn btn-outline-dark btn-sm" name = "EditButton" value ={{id}}>Edit</button>
+     {% endif %}
+    </div>
+    
+{% endfor %}
+    {% if user_access == 2 and completed_by_supervisor == 0 %}
+    <input type="submit" value="Finalize Answer" name="Finalize Answer"/>
+    {% endif %}
+</form>
+<br>
+<form  action="" method="POST">
+{% csrf_token %}
+    {% if user_access == 1 and completed_by_coordinator == 0  %}
+
+    <select name="question_type">
+       <option selected="selected" disabled>Select Question Type:</option>
+          {% for element in lists %}
+             <option value="{{element}}">{{element}}</option>
+          {% endfor %}
+    </select>
+
+    <select name="how_many">
+       <option selected="selected" >How many Options:</option>
+          {% for element in lists2 %}
+             <option value="{{element}}">{{element}}</option>
+          {% endfor %}
+    </select>
+       <input type="submit" name="AddQ" value="Add Question">
+    {% endif %}
+</form>
+
+{% if type <= 0 and isEdit == 0 %}
+<form action="" method="POST">
+    {% if user_access == 1 and completed_by_coordinator == 0  %}
+{% csrf_token %}
+
+<div class="form-group">
+    <label for="">Content:</label>
+    <textarea class="form-control" id="" rows="3" name = "normalquestion"></textarea>
+  </div>
+    <select name="order">
+        <option selected="selected" >Order:</option>
+        {% for position in available_positions %}
+            <option value="{{position}}">{{position}}</option>
+        {% endfor %}
+    </select>
+<input type="submit" name = "submitQ" value="Submit Question"/>
+    {% endif %}
+</form>
+
+{% elif type > 0 and isEdit == 0 %}
+{% if user_access == 1 and completed_by_coordinator == 0  %}
+    <form action="" method="POST">
+{% csrf_token %}
+
+<div class="form-group">
+    <textarea class="form-control" id="" rows="3" name = "MCQquestion"></textarea>
+  </div>
+</br>
+    {%  for id in n %}
+        <div class="form-group">
+            <textarea class="form-control-sm" id="" rows="3" name = "{{ id }}"></textarea>
+          </div>
+
+    {% endfor %}
+        <select name="order">
+            <option selected="selected" >Order:</option>
+            {% for position in available_positions %}
+                <option value="{{position}}">{{position}}</option>
+            {% endfor %}
+        </select>
+    <input type="submit" name = "submitQ" value="Submit Question"/>
+        {% endif %}
+</form>
+
+{% elif isEdit == 1 and type <= 0 %}
+    {% if user_access == 1 and completed_by_coordinator == 0  %}
+    <form action="" method="POST">
+        {% csrf_token %}
+
+        <div class="form-group">
+            <textarea class="form-control" id="" rows="3" name = "normalquestion" id="">{{editQuestion}}</textarea>
+          </div>
+
+        <select name="order">
+                     <option selected="selected" >Order:</option>
+                     {% for position in available_positions %}
+                      <option value="{{position}}">{{position}}</option>
+                      {% endfor %}
+            </select>
+            <input type="submit" value="Save Changes"/>
+        {% endif %}
+        </form>
+
+{%  elif isEdit == 1 and type > 0 %}
+    {% if user_access == 1 and completed_by_coordinator == 0  %}
+    <form action="" method="POST">
+        {% csrf_token %}
+            <textarea cols="200" rows="3" name="MCQquestion">
+                {{editQuestion}}
+        </textarea><br/>
+            {%  for i,id in editOptions %}
+
+            <div class="form-group">
+                <textarea class="form-control" id="" rows="3" name = {{ id }} id="">{{i}}</textarea>
+              </div>
+
+            {% endfor %}
+            <select name="order">
+                     <option selected="selected" >Order:</option>
+                     {% for position in available_positions %}
+                      <option value="{{position}}">{{position}}</option>
+                      {% endfor %}
+            </select>
+            <input type="submit" value="Save Changes"/>
+
+        </form>
+          {% endif %}
+
+{%  endif %}
+
+<form  action="generate_pdf/{{ form_id }}" method="POST">
+    {% csrf_token %}
+        <input type="submit" name = "generate_pdf" value="Generate PDF"/>
+
+    </form>
+{% if user_access == 1 %}
+<form action="" method="POST">
+    {% csrf_token %}
+<input type="submit" value="Finalize Form" name="Finalize Form"/>
+</form>
+{% endif %}
+{% if user_access == 3 %}
+{% if feedback_exists == 0 %}
+<form action="" method="POST">
+    {% csrf_token %}
+
+<div class="form-group">
+    <label for="">Give Your Feedback:</label>
+    <textarea class="form-control" id="" rows="3" cols="20" name="Feedback"></textarea>
+</div>
+<br/>
+    <input type="submit" value="Submit Feedback" name="Submit Feedback"/>
+</form>
+{% else %}
+<br>
+
+       <div class="accordion" id="accordionExample">
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="headingTwo">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+              Student Feedback
+            </button>
+          </h2>
+          <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+            <div class="accordion-body">
+                {{ feedback}}
+            </div>
+          </div>
+        </div>
+    
+      </div>
+{% endif %}
+{% else %}
+       <br>
+
+       <div class="accordion" id="accordionExample">
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="headingTwo">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+              Student Feedback
+            </button>
+          </h2>
+          <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+            <div class="accordion-body">
+                {{ feedback}}
+            </div>
+          </div>
+        </div>
+    
+      </div>
+
+{% endif %}
+
+{% if user_access == 1 %}
+<form action="" method="POST">
+    {% csrf_token %}
+<input type="submit" value="Clone Form" name="Clone Form"/>
+</form>
+{% endif %}
+
+{% if user_access == 1 %}
+    {% if messages %}
+        {% for message in messages %}
+        <p id="messages">{{message}}</p>
+        {% endfor %}
+    {% endif %}
+{% endif %}
+{% if user_access == 1 %}
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+  Form Status
+</button>
+{% endif %}
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        {% if messages %}
+
+            You have already completed the form
+          {% else %}
+          You can still edit the form
+          {% endif %}
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+
+      </div>
+    </div>
+  </div>
+</div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+</body>
+</html>

@@ -1,0 +1,101 @@
+<testsuite name="features.login.Test that users can login" tests="6" errors="0" failures="0" skipped="0" time="35.992615" timestamp="2022-05-02T23:13:20.718027" hostname="DESKTOP-4NFT0PV"><testcase classname="features.login.Test that users can login" name="Authorized Users Can Login -- @1.1 " status="passed" time="6.450937"><system-out>
+<![CDATA[
+@scenario.begin
+  Scenario Outline: Authorized Users Can Login -- @1.1 
+    Given I am on the home screen ... passed in 3.848s
+    When I click login ... passed in 0.577s
+    Then I am on the login page ... passed in 0.092s
+    When I enter my "coordinator" and "systempassword" and login ... passed in 1.844s
+    Then I should be on the authorized page ... passed in 0.090s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="features.login.Test that users can login" name="Authorized Users Can Login -- @1.2 " status="passed" time="7.560118"><system-out>
+<![CDATA[
+@scenario.begin
+  Scenario Outline: Authorized Users Can Login -- @1.2 
+    Given I am on the home screen ... passed in 3.549s
+    When I click login ... passed in 1.818s
+    Then I am on the login page ... passed in 0.091s
+    When I enter my "supervisor1" and "systempassword" and login ... passed in 2.004s
+    Then I should be on the authorized page ... passed in 0.098s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="features.login.Test that users can login" name="Authorized Users Can Login -- @1.3 " status="passed" time="8.717415"><system-out>
+<![CDATA[
+@scenario.begin
+  Scenario Outline: Authorized Users Can Login -- @1.3 
+    Given I am on the home screen ... passed in 5.278s
+    When I click login ... passed in 1.200s
+    Then I am on the login page ... passed in 0.095s
+    When I enter my "student1" and "systempassword" and login ... passed in 2.036s
+    Then I should be on the authorized page ... passed in 0.108s
+
+@scenario.end
+--------------------------------------------------------------------------------
+
+Captured stdout:
+[]
+[]
+
+]]>
+</system-out></testcase><testcase classname="features.login.Test that users can login" name="Unauthorized users cannot view content from login -- @1.1 " status="passed" time="9.073627"><system-out>
+<![CDATA[
+@scenario.begin
+  Scenario Outline: Unauthorized users cannot view content from login -- @1.1 
+    Given I am on the home screen ... passed in 4.695s
+    When I click login ... passed in 1.209s
+    Then I am on the login page ... passed in 0.093s
+    When I enter my "coordinator" and "systempassword" and login ... passed in 2.163s
+    Then I should be on the authorized page ... passed in 0.085s
+    When I click on the logout button ... passed in 0.414s
+    Then I am on the home screen ... passed in 0.104s
+    When I go back ... passed in 0.232s
+    Then I should see an 'Error' ... passed in 0.079s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="features.login.Test that users can login" name="Unauthorized users cannot view content from login -- @1.2 " status="passed" time="2.299529"><system-out>
+<![CDATA[
+@scenario.begin
+  Scenario Outline: Unauthorized users cannot view content from login -- @1.2 
+    Given I am on the home screen ... passed in 1.165s
+    When I click login ... passed in 0.149s
+    Then I am on the login page ... passed in 0.038s
+    When I enter my "supervisor1" and "systempassword" and login ... passed in 0.674s
+    Then I should be on the authorized page ... passed in 0.054s
+    When I click on the logout button ... passed in 0.110s
+    Then I am on the home screen ... passed in 0.038s
+    When I go back ... passed in 0.031s
+    Then I should see an 'Error' ... passed in 0.040s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="features.login.Test that users can login" name="Unauthorized users cannot view content from login -- @1.3 " status="passed" time="1.890989"><system-out>
+<![CDATA[
+@scenario.begin
+  Scenario Outline: Unauthorized users cannot view content from login -- @1.3 
+    Given I am on the home screen ... passed in 1.035s
+    When I click login ... passed in 0.086s
+    Then I am on the login page ... passed in 0.038s
+    When I enter my "student1" and "systempassword" and login ... passed in 0.521s
+    Then I should be on the authorized page ... passed in 0.036s
+    When I click on the logout button ... passed in 0.089s
+    Then I am on the home screen ... passed in 0.031s
+    When I go back ... passed in 0.025s
+    Then I should see an 'Error' ... passed in 0.030s
+
+@scenario.end
+--------------------------------------------------------------------------------
+
+Captured stdout:
+[]
+[]
+
+]]>
+</system-out></testcase></testsuite>

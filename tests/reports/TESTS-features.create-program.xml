@@ -1,0 +1,14 @@
+<testsuite name="features.create-program.Creating a program" tests="1" errors="0" failures="0" skipped="0" time="9.890735" timestamp="2022-05-02T23:09:23.412720" hostname="DESKTOP-4NFT0PV"><testcase classname="features.create-program.Creating a program" name="Program Coordinator can create a program from the home view" status="passed" time="9.890735"><system-out>
+<![CDATA[
+@scenario.begin
+  Scenario: Program Coordinator can create a program from the home view
+    Given I am logged in as the program coordinator ... passed in 7.927s
+    When I click on 'Add Program' ... passed in 1.065s
+    Then I should be on 'program_create.html' ... passed in 0.106s
+    When I input the program name and click 'Save' ... passed in 0.708s
+    Then I should be on the home page and should see the newly created program ... passed in 0.084s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase></testsuite>

@@ -1,0 +1,44 @@
+<testsuite name="features.create-form.Creating a form" tests="2" errors="0" failures="0" skipped="0" time="51.821238" timestamp="2022-05-02T23:09:07.097149" hostname="DESKTOP-4NFT0PV"><testcase classname="features.create-form.Creating a form" name="Program Coordinator can create a form from home view" status="passed" time="40.07258"><system-out>
+<![CDATA[
+@scenario.begin
+  Scenario: Program Coordinator can create a form from home view
+    Given I am logged in as the program coordinator ... passed in 34.861s
+    When I click on 'Create Form' ... passed in 1.447s
+    Then I should be on 'form_create.html' ... passed in 0.185s
+    When I input the form name, and designated program id (1) and click on 'Save' ... passed in 2.289s
+    Then I should be on the home page ... passed in 0.316s
+    When I click on Program1 ... passed in 0.816s
+    Then I should see my newly created form ... passed in 0.158s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out><system-err>
+<![CDATA[
+Captured stderr:
+
+
+====== WebDriver manager ======
+Current google-chrome version is 101.0.4951
+Get LATEST chromedriver version for 101.0.4951 google-chrome
+Driver [/home/sedupuganti/.wdm/drivers/chromedriver/linux64/101.0.4951.41/chromedriver] found in cache
+
+]]>
+</system-err></testcase><testcase classname="features.create-form.Creating a form" name="Program Coordinator can create a form from form view" status="passed" time="11.748657"><system-out>
+<![CDATA[
+@scenario.begin
+  Scenario: Program Coordinator can create a form from form view
+    Given I am logged in as the program coordinator ... passed in 7.093s
+    When I click on Program1 ... passed in 0.417s
+    Then I should be in the program view ... passed in 0.348s
+    When I click on 'Create Form' in the program view ... passed in 0.906s
+    Then I should be on 'form_create.html' ... passed in 0.188s
+    When I input the form name and click on 'Save' ... passed in 1.230s
+    Then I should be on the home page ... passed in 0.274s
+    When I click on Program1 ... passed in 0.882s
+    Then I should see my newly created form with v2 ... passed in 0.411s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase></testsuite>
